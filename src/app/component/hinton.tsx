@@ -12,35 +12,79 @@ const lexend = Lexend_Deca({ subsets: ['latin'], weight: ['300', '400', '600', '
 
 const Hinton: React.FC = () => {
   const mainPinRef = useRef<HTMLDivElement | null>(null);
+  const initialTitleRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     let ctx: gsap.Context;
     const pinRef = mainPinRef.current;
     if (pinRef) {
       ctx = gsap.context(() => {
-        // --- Set initial states for elements that will be animated sequentially ---
+        // --- PRE-ANIMATION SETUP ---
+
+        // 1. Split the initial title into character spans for animation
+        const titleEl = initialTitleRef.current;
+        if (titleEl) {
+          const text = titleEl.innerText;
+          titleEl.innerHTML = ''; // Clear original text
+          text.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.style.display = 'inline-block'; // Needed for transforms
+            span.textContent = char === ' ' ? '\u00A0' : char; // Handle spaces
+            titleEl.appendChild(span);
+          });
+        }
+        const titleChars = gsap.utils.toArray("#initial-title span");
+
+        // Set initial states for elements that will be animated sequentially
         gsap.set('.warning-point', { y: 50, autoAlpha: 0 });
+        // The original intro is now hidden by default and animated in via the timeline
 
-        gsap.from('.intro-text > *', { autoAlpha: 0, y: 30, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.2 });
-
+        // --- THE MASTER SCROLL-TRIGGERED TIMELINE ---
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinRef,
             pin: true,
             scrub: 1.5,
             start: 'top top',
-            end: '+=15000',
+            end: '+=18000', // Increased end point to accommodate new intro
           },
         });
 
+        // --- NEW: THE "ARTIFICIAL COGNITION" INTRO ANIMATION ---
         tl.to('.scroll-indicator', { autoAlpha: 0, duration: 0.5 });
-        tl.to('.intro-text', { autoAlpha: 0, y: -30, duration: 1.5 }, "+=0.5");
 
-        tl.from('.paradigm-shift', { autoAlpha: 0, y: 50, duration: 1.5 });
+        // Explode characters outwards on scroll
+        tl.to(titleChars, {
+          x: () => gsap.utils.random(-600, 600),
+          y: () => gsap.utils.random(-400, 400),
+          rotation: () => gsap.utils.random(-360, 360),
+          autoAlpha: 0,
+          duration: 2.5,
+          ease: 'power3.in',
+          stagger: {
+            each: 0.03,
+            from: 'random',
+          }
+        });
+        
+        // Hide the container for the initial title
+        tl.to('.initial-title-container', { autoAlpha: 0, duration: 1 }, "<0.5");
+
+
+        // --- COMBINED HINTON & PARADIGM SHIFT SEQUENCE ---
+        
+        // Fade in the new combined section (Hinton title + paragraph)
+        tl.from('.paradigm-shift', { autoAlpha: 0, y: 50, duration: 1.5, ease: 'power3.out' }, "+=0.5");
+        
+        // Animate the highlights and strikethrough
         tl.to('.highlight-reasoning', { color: '#0891b2', duration: 0.5 }, "+=0.5");
         tl.to('.highlight-understanding', { color: '#0891b2', duration: 0.5 }, "+=0.5");
         tl.from('.autocomplete-strike', { width: '0%', duration: 1, ease: 'power2.inOut' }, "+=1");
-        tl.to('.paradigm-shift', { autoAlpha: 0, y: -50, duration: 1.5 }, "+=2");
+        
+        // Fade out the entire section to transition
+        tl.to('.paradigm-shift', { autoAlpha: 0, y: -50, duration: 1.5, ease: 'power2.in' }, "+=2");
+
+        // --- REST OF THE ANIMATION SEQUENCE ---
 
         tl.from('.neural-net-container', { autoAlpha: 0, scale: 0.9, duration: 2 });
         tl.from('.neuron', { scale: 0, stagger: 0.2, duration: 1, ease: 'back.out(1.7)' }, "-=1");
@@ -85,12 +129,18 @@ const Hinton: React.FC = () => {
       }, pinRef);
     }
     return () => {
-      // Only revert if context exists and ref is still mounted
-      if (ctx && pinRef) {
+      if (ctx) {
         ctx.revert();
       }
-      // Kill all ScrollTriggers to avoid orphaned pinning
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      const triggers = ScrollTrigger.getAll();
+      if (triggers && triggers.length) {
+        triggers.forEach(trigger => {
+          try {
+            trigger.kill();
+          } catch{
+          }
+        });
+      }
     };
   }, []);
 
@@ -104,13 +154,29 @@ const Hinton: React.FC = () => {
               <span className="text-sm font-light mb-2">Scroll to Begin Synthesis</span>
               <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
-            <div className="intro-text absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-              <h1 className="font-serif font-semibold text-6xl md:text-8xl tracking-tighter text-black">Geoffrey Hinton</h1>
-              <h2 className="font-sans font-light text-xl md:text-2xl text-neutral-500 mt-2">A Synthesis on Artificial Intelligence</h2>
+
+            {/* --- NEW: The very first title screen --- */}
+            <div className="initial-title-container absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                <h1 id="initial-title" ref={initialTitleRef} className="font-serif font-semibold text-4xl md:text-5xl tracking-tighter text-black">
+                    The Emergence of Artificial Cognition
+                </h1>
             </div>
-            <div className="paradigm-shift absolute inset-0 flex items-center justify-center text-left p-8 invisible">
-              <p className="font-serif text-3xl md:text-5xl leading-tight md:leading-tight tracking-tight max-w-3xl">Modern AI demonstrates genuine <span className="highlight-reasoning font-semibold">reasoning</span> and <span className="highlight-understanding font-semibold">understanding</span>, challenging the notion that it&apos;s merely sophisticated <span className="relative inline-block"><span className="autocomplete-strike"></span>autocomplete.</span></p>
+
+            {/* --- REMOVED: The old intro-text div is no longer needed --- */}
+            
+            {/* --- UPDATED: The paradigm-shift div now contains the Hinton title and the paragraph --- */}
+            <div className="paradigm-shift absolute inset-0 flex items-center justify-center p-8 invisible">
+              <div className="max-w-3xl w-full text-left">
+                <h2 className="font-serif font-semibold text-5xl md:text-6xl tracking-tighter text-black mb-8">
+                  Geoffrey Hinton
+                </h2>
+                <p className="font-serif text-3xl md:text-5xl leading-tight md:leading-tight tracking-tight">
+                  Modern AI demonstrates genuine <span className="highlight-reasoning font-semibold">reasoning</span> and <span className="highlight-understanding font-semibold">understanding</span>, challenging the notion that it&apos;s merely sophisticated <span className="relative inline-block"><span className="autocomplete-strike"></span>autocomplete.</span>
+                </p>
+              </div>
             </div>
+
+            {/* --- The rest of the content remains the same --- */}
             <div className="neural-net-container absolute inset-0 flex flex-col items-center justify-center p-8 invisible">
                <h3 className="font-sans text-neutral-500 mb-4 text-center">It learns by adjusting connections, inspired by the brain&apos;s synaptic process.</h3>
                <svg viewBox="0 0 400 200" className="w-full max-w-2xl" aria-hidden="true">
@@ -118,18 +184,13 @@ const Hinton: React.FC = () => {
                   <path className="synapse" d="M 50 100 L 150 50" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="112" strokeDashoffset="112" /><path className="synapse" d="M 50 100 L 150 150" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="112" strokeDashoffset="112" /><path className="synapse" d="M 150 50 L 250 50" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="100" strokeDashoffset="100" /><path className="synapse" d="M 150 150 L 250 150" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="100" strokeDashoffset="100" /><path className="synapse" d="M 150 50 L 250 150" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="141" strokeDashoffset="141" /><path className="synapse" d="M 150 150 L 250 50" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="141" strokeDashoffset="141" /><path className="synapse" d="M 250 50 L 350 100" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="112" strokeDashoffset="112" /><path className="synapse" d="M 250 150 L 350 100" stroke="url(#synapseGradient)" strokeWidth="1.5" strokeDasharray="112" strokeDashoffset="112" /><circle className="neuron" cx="50" cy="100" r="8" fill="#1f2937" /><circle className="neuron" cx="150" cy="50" r="8" fill="#1f2937" /><circle className="neuron" cx="150" cy="150" r="8" fill="#1f2937" /><circle className="neuron" cx="250" cy="50" r="8" fill="#1f2937" /><circle className="neuron" cx="250" cy="150" r="8" fill="#1f2937" /><circle className="neuron" cx="350" cy="100" r="8" fill="#1f2937" />
                </svg>
             </div>
-
-            {/* --- REFINED: The Foundational Warning Chapter --- */}
             <div className="warning-chapter-container absolute inset-0 flex items-center justify-center p-8 md:p-16 invisible">
               <div className="grid grid-cols-10 gap-x-8 md:gap-x-16 w-full max-w-7xl mx-auto">
-                {/* Left Static Panel - remains visible while points cycle */}
                 <div className="warning-left-panel col-span-10 md:col-span-3 flex flex-col justify-center">
                   <h3 className="font-serif text-4xl lg:text-5xl font-semibold tracking-tight">The Foundational Warning</h3>
                   <p className="text-neutral-500 mt-4 leading-relaxed">Hinton’s empirically grounded concerns are not alarmist, but clinical. He outlined specific vectors where we are losing our ability to predict and govern AI behavior.</p>
                 </div>
-                {/* Right Dynamic Panel - container for the cycling points */}
                 <div className="col-span-10 md:col-span-7 h-96 md:h-auto relative">
-                  {/* Each point is positioned absolutely to appear in the same spot */}
                   <div className="warning-point absolute inset-0 flex flex-col justify-center">
                       <h4 className="font-serif text-xl md:text-2xl font-semibold mb-1 text-cyan-700">01. Superhuman Cognition, Subhuman Interpretability</h4>
                       <p className="text-base md:text-lg text-neutral-600 leading-relaxed max-w-xl">Large models now outperform humans in many domains. Yet we can&apos;t explain how they arrive at those outputs, as they don&apos;t produce transparent rules.</p>
@@ -149,7 +210,6 @@ const Hinton: React.FC = () => {
                 </div>
               </div>
             </div>
-
             <div className="statistic-container absolute inset-0 flex flex-col items-center justify-center text-center p-8 invisible">
               <p className="text-xl md:text-2xl text-neutral-600 mb-2">This leads to Hinton&apos;s estimated probability of an existential threat:</p>
               <div className="font-serif font-bold text-amber-600 flex items-baseline">
@@ -168,6 +228,7 @@ const Hinton: React.FC = () => {
                   </div>
               </div>
             </div>
+
         </div>
       </div>
 
