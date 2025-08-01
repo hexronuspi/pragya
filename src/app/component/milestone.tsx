@@ -127,6 +127,7 @@ const PopoverCard: FC<PopoverCardProps> = ({
 );
 
 // --- DESKTOP VERSION ---
+// --- DESKTOP VERSION (Corrected) ---
 const DesktopTimeline: FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
@@ -146,7 +147,7 @@ const DesktopTimeline: FC = () => {
     opacity: 0, // Initially hidden
     pointerEvents: "none",
   });
-  
+
   // Consolidated popover positioning logic using useCallback
   const positionPopover = useCallback(
     (index: number) => {
@@ -253,38 +254,42 @@ const DesktopTimeline: FC = () => {
       });
     },
     [milestonePositions]
-  ); // Recalculate if milestonePositions change
+  );
 
-  // Calculate and set initial positions for milestones
-  // This replaces the GSAP positioning and ensures dots are visible from the start
+  // --- START OF FIX ---
+
+  // This effect now calculates milestone positions on mount and on resize.
+  // It has an empty dependency array so it only runs once to set up.
   useLayoutEffect(() => {
     const path = pathRef.current;
     if (!path) return;
 
-    const calculatePositions = () => {
+    // This function can be defined inside because it doesn't depend on any state.
+    const calculateAndSetPositions = () => {
       const pathLength = path.getTotalLength();
-      return milestones.map((milestone) =>
-        path.getPointAtLength(pathLength * milestone.position)
-      );
+      const positions = milestones.map((milestone) => {
+          const point = path.getPointAtLength(pathLength * milestone.position);
+          // Return a plain object to avoid potential issues with DOMPoint comparison
+          return { x: point.x, y: point.y };
+      });
+      setMilestonePositions(positions);
     };
 
-    const initialPositions = calculatePositions();
-    setMilestonePositions(initialPositions);
+    calculateAndSetPositions(); // Calculate initial positions
 
+    // The resize handler now only needs to recalculate positions.
+    // The other useEffect will reactively handle repositioning the popover.
     const handleResize = () => {
-      // Recalculate milestone positions on resize
-      setMilestonePositions(calculatePositions());
-      // Re-position popover if one is active
-      if (activeMilestone !== null) {
-        positionPopover(activeMilestone);
-      }
+      calculateAndSetPositions();
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [activeMilestone, positionPopover]); // Include positionPopover in dependencies
+  }, []); // KEY CHANGE: The dependency array is now empty.
 
-  // Effect to update popover position when activeMilestone changes
+  // --- END OF FIX ---
+
+  // Effect to update popover position when activeMilestone changes or when positions are recalculated.
   useEffect(() => {
     if (activeMilestone !== null) {
       positionPopover(activeMilestone);
@@ -293,6 +298,7 @@ const DesktopTimeline: FC = () => {
     }
   }, [activeMilestone, positionPopover]);
 
+  // The rest of the component remains the same.
   return (
     <div ref={componentRef} className="relative h-screen w-full overflow-hidden">
       {/* Introduction block, pinned at the top */}
