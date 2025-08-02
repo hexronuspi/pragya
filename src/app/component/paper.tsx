@@ -39,7 +39,7 @@ const Paper = ({ pth, yt, text }: PaperProps) => {
           {yt && (
             <div className="aspect-video w-full overflow-hidden rounded-lg shadow-2xl bg-black/10">
               <iframe
-                src={`https://www.youtube.com/embed/${yt}?&autoplay=0&mute=1&loop=1&playlist=${yt}&controls=0`}
+                src={`https://www.youtube.com/embed/${yt}?&autoplay=0&mute=0&loop=1&playlist=${yt}&controls=1`}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -123,4 +123,5 @@ export const PaperSection = () => {
       </div>
     </section>
   );
+
 };
