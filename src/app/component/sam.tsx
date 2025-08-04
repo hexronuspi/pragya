@@ -1,79 +1,23 @@
-'use client'; // This directive is necessary for using React hooks like useEffect and useRef in Next.js App Router
+'use client'; // This directive is still good practice for client-side components in the App Router.
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Register the GSAP ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 export const SamImageSection = () => {
-  // Create refs for the elements we want to animate
-  const sectionRef = useRef(null);
-  const imageContainerRef = useRef(null);
-  const authorRef = useRef(null);
-
-  useEffect(() => {
-    // A GSAP context allows for safe cleanup, which is crucial in React
-    const ctx = gsap.context(() => {
-      // Create a timeline for a synchronized animation sequence
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current, // The animation starts when this element enters the viewport
-          start: 'top 70%', // Starts when the top of the trigger hits 70% from the top of the viewport
-          end: 'bottom top',
-          toggleActions: 'play none none none', // Play the animation once on enter
-        },
-      });
-
-      // Animation 1: Image fades and scales in
-      tl.fromTo(
-        imageContainerRef.current,
-        { scale: 0.9, y: -50, opacity: 0 },
-        {
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: 'power3.out', // A smooth easing function for a natural feel
-        }
-      );
-
-      // Animation 2: Author text animates in
-      // The "<0.5" position parameter starts this animation 0.5s after the previous one begins
-      tl.fromTo(
-        authorRef.current,
-        { y: 20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-        },
-        '<0.5' // Overlaps with the image animation for a more fluid sequence
-      );
-    }, sectionRef); // Scope the context to our main component ref
-
-    // Cleanup function: when the component unmounts, revert all GSAP animations
-    return () => ctx.revert();
-  }, []); // Empty dependency array ensures this effect runs only once on mount
-
   return (
+    // Key Fix: Added `bg-white` to give the section a solid background.
+    // This prevents its content from overlapping the previous section during scroll.
     <section
-      ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center p-8 overflow-hidden"
+      className="relative bg-white min-h-screen flex items-center justify-center p-8"
     >
       <div className="container mx-auto max-w-4xl w-full">
         {/* Centered column layout */}
         <div className="flex flex-col items-center justify-center">
 
-          {/* Image Container: Takes up 60% of the viewport height */}
+          {/* Image Container: Takes up 80% of the viewport height */}
+          {/* Removed ref and inline style for opacity */}
           <div
-            ref={imageContainerRef}
-            // The container is responsive, taking full width up to a max size, and 60% of the viewport height.
-            className="relative w-full max-w-lg h-[60vh]"
-            style={{ opacity: 0 }} // Start invisible for GSAP animation
+            className="relative w-full max-w-4xl h-[80vh]"
           >
             <Image
               src="/pragya/sam.png"
@@ -87,11 +31,9 @@ export const SamImageSection = () => {
           </div>
 
           {/* Text Content Below Image */}
+          {/* Removed ref and inline style for opacity */}
           <div
-            ref={authorRef}
-            // mt-5 provides 20px of space from the image above
-            className="text-center"
-            style={{ opacity: 0 }} // Start invisible for GSAP animation
+            className="text-center mt-5" // Added mt-5 for spacing
           >
             <p className="italic text-lg md:text-xl font-medium">
               — Sam Altman, CEO of OpenAI

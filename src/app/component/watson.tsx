@@ -81,7 +81,10 @@ export const Watson = () => {
       className="min-h-screen flex items-center justify-center p-8 overflow-hidden"
     >
       <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 lg:gap-24">
+        <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 tracking-tight">
+            Unlocking Life&apos;s Code
+          </h2>
+        <div className="flex flex-col md:flex-row items-center justify-center">
           
           {/* Left Side: Text Content */}
           <div className="w-full md:w-1/2 flex flex-col justify-center text-center md:text-left">
@@ -91,15 +94,13 @@ export const Watson = () => {
                 className="text-2xl lg:text-4xl font-light italic leading-relaxed"
                 style={{ opacity: 0 }} // Start invisible before JS animation
               >
-                “We understand the hardware of life–DNA–but we have almost no idea how the operating system works.”
+                “We understand the hardware of life&mdash;DNA&mdash;but we have almost no idea how the operating system works.”
               </p>
-              <footer 
-                ref={authorRef}
-                className="text-xl lg:text-2xl font-semibold text-cyan-400"
-                style={{ opacity: 0 }} // Start invisible before JS animation
-              >
-                — James D. Watson
-              </footer>
+              <footer className="mt-8 text-right">
+              <p className="text-lg font-medium text-neutral-800">— James D. Watson</p>
+              <p className="text-base font-normal text-neutral-600">Co-discovered the double helix structure of DNA</p>
+              <p className="text-base font-normal text-neutral-600">and was awarded the Nobel Prize in Physiology 1962</p>
+            </footer>
             </blockquote>
           </div>
 

@@ -1,127 +1,124 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Inter, Lexend_Deca } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Register the GSAP plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// Define fonts for use with Tailwind CSS font variables
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const lexend = Lexend_Deca({ subsets: ['latin'], weight: ['700'], variable: '--font-lexend', display: 'swap' });
+// Define a clean, modern font for the component
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 /**
- * A self-contained, scroll-triggered animation component using GSAP and Tailwind CSS.
- * It's designed to be placed in a scrolling page layout. When it enters the viewport,
- * it will pin itself and animate the content based on the user's scroll progress.
- * The content will remain visible after the scroll animation completes.
- * For a standalone demo, wrap this component in a layout with extra vertical space.
+ * A top-tier, animated component with corrected stacking context and natural scroll pacing.
+ *
+ * THE FIX: This version solves the "overlap" problem by using GSAP's `onToggle`
+ * callback. It dynamically adds a high z-index class (`is-pinned`) to the
+ * component only when it is actively pinned to the screen. This ensures it
+ * cleanly covers the content scrolling underneath it, providing a seamless and
+ * professional user experience.
  */
 const Percent: React.FC = () => {
-  const pinRef = useRef<HTMLDivElement | null>(null);
-  const numberRef = useRef<HTMLSpanElement | null>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const numberRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    let ctx: gsap.Context;
-    const pinEl = pinRef.current;
+    // A slight delay to ensure all DOM elements are painted, preventing layout flashes.
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        const title = pinRef.current?.querySelector('.gsap-title');
+        const statistic = pinRef.current?.querySelector('.gsap-statistic');
+        const bodyText = pinRef.current?.querySelector('.gsap-body-text');
+        const cta = pinRef.current?.querySelector('.gsap-cta');
+        const numberEl = numberRef.current;
+        const mainEl = pinRef.current;
 
-    // Ensure the element refs are available before setting up the animation
-    if (pinEl && numberRef.current) {
-      const numberEl = numberRef.current;
-      
-      // Use a GSAP Context for safe cleanup
-      ctx = gsap.context(() => {
-        // Create the master timeline with a ScrollTrigger
-        const tl = gsap.timeline({
+        if (!mainEl || !title || !statistic || !bodyText || !cta || !numberEl) return;
+
+        const timeline = gsap.timeline({
           scrollTrigger: {
-            trigger: pinEl,
+            trigger: mainEl,
             pin: true,
             scrub: 1.5,
             start: 'top top',
-            end: '+=3000', // The scroll duration for the animation
+            end: '+=200%',
+            // THE CORE FIX: Toggle a class when the trigger is active.
+            // This class will control the z-index.
+            toggleClass: { targets: mainEl, className: 'is-pinned' },
           },
         });
 
-        // --- ANIMATION SEQUENCE ---
-
-        // 1. Animate the container into view.
-        // We use `.statistic-container` as a selector within the scoped context.
-        tl.from('.statistic-container', {
-          autoAlpha: 0,
-          y: 50,
-          scale: 0.8,
-          duration: 1.5,
-          ease: 'power2.out',
-        });
-
-        // 2. Animate the number from 10 to 20.
+        // Refined Animation Sequence (no changes needed here)
+        timeline.to({}, { duration: 0.25 });
+        timeline.from([title, statistic], { autoAlpha: 0, y: 40, stagger: 0.1, duration: 1, ease: 'power2.out' });
         const counter = { val: 10 };
-        tl.to(
-          counter,
-          {
-            val: 20,
-            roundProps: 'val',
-            duration: 2, // This duration is relative to the timeline's scrub
-            ease: 'none',
-            onUpdate: () => {
-              if (numberEl) {
-                numberEl.textContent = String(counter.val);
-              }
-            },
-          },
-          '<' // Start at the same time as the previous animation
-        );
-        
-        // 3. The fade-out animation has been removed as per the request.
-        // The content will now remain on screen after the number animation is complete,
-        // until the user scrolls past the end of the ScrollTrigger.
+        timeline.to(counter, { val: 20, duration: 1.5, roundProps: 'val', onUpdate: () => { numberEl.textContent = String(counter.val); }, ease: 'none' }, "<0.5");
+        timeline.from([bodyText, cta], { autoAlpha: 0, y: 30, stagger: 0.2, duration: 1, ease: 'power2.out' }, ">-0.75");
+        timeline.to({}, { duration: 0.5 });
 
-      }, pinEl); // Scope the context to the main container element
-    }
+      }, pinRef);
 
-    // Cleanup function to run when the component unmounts
-    return () => {
-      if (ctx) {
-        ctx.revert(); // Reverts all GSAP animations and kills ScrollTriggers
-      }
-    };
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+      return () => ctx.revert();
+    }, 100); // 100ms delay
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    // This container is the trigger and the element that gets pinned.
-    // The font variables are passed here for Tailwind to use.
-    <div ref={pinRef} className={`relative h-screen w-full overflow-hidden ${inter.variable} ${lexend.variable}`}>
-      {/* 
-        The grid background is now created using Tailwind's arbitrary properties.
-        This keeps the styling self-contained within the component.
-        Note: `theme(colors.gray.200)` assumes default Tailwind color configuration.
-      */}
-      <div 
-        className="absolute inset-0 opacity-50 bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:60px_60px]" 
-        aria-hidden="true"
-      ></div>
+    <>
+      {/* We need to define the style for the `is-pinned` class.
+          This can be done in a global CSS file, but for a self-contained
+          component, using a <style> tag with JSX is a clean approach. */}
+      <style jsx global>{`
+        .is-pinned {
+          z-index: 20 !important;
+        }
+      `}</style>
       
-      {/* 
-        The animated content. It starts invisible and is faded in by GSAP.
-        The `statistic-container` class is used by GSAP as a selector and must be preserved.
-      */}
-      <div className="statistic-container invisible absolute inset-0 flex flex-col items-center justify-center text-center p-8 font-sans text-neutral-800">
-        <h1 className="font-serif text-3xl md:text-5xl font-bold mb-12">
-          The Emergence of Artificial Cognition
-        </h1>
-        <p className="text-xl md:text-2xl text-neutral-600 mb-2">This leads to Hinton&apos;s estimated probability of an existential threat:</p>
-        <div className="font-serif font-bold text-amber-600 flex items-baseline">
-          {/* The ref is attached to the number for direct manipulation by GSAP */}
-          <span ref={numberRef} className="text-8xl md:text-9xl lg:text-[10rem] tracking-tighter">
-            10
-          </span>
-          <span className="text-7xl md:text-8xl lg:text-[8rem]">%</span>
+      {/* The main component remains the same. The `toggleClass` in JS handles everything.
+          We start with a default z-index of 1 to establish a stacking context. */}
+      <section ref={pinRef} className={`relative h-screen w-full overflow-hidden bg-white ${inter.variable} font-sans z-10`}>
+        <div
+          className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:60px_60px]"
+          aria-hidden="true"
+        ></div>
+        <div className="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center p-8 text-center">
+          {/* All child elements are identical to the previous version */}
+          <h2 className="gsap-title invisible text-2xl font-semibold text-neutral-800 md:text-3xl">
+            Hinton’s Prediction
+          </h2>
+          <div className="gsap-statistic invisible my-4 flex items-baseline font-bold text-black">
+            <span ref={numberRef} className="text-8xl md:text-9xl lg:text-[12rem] tracking-tighter">
+              10
+            </span>
+            <span className="text-7xl md:text-8xl lg:text-[10rem] tracking-tight text-neutral-500">%</span>
+            <span className="ml-4 self-end pb-4 text-3xl md:text-4xl lg:text-5xl text-neutral-500">
+              Chance of Extinction
+            </span>
+          </div>
+          <div className="gsap-body-text invisible max-w-2xl text-lg leading-relaxed text-neutral-600 md:text-xl">
+            <p>
+              This alarming figure reflects AI evolving at an unprecedented pace. Such probabilities may seem small, but for existential threats, even a 1% chance is a cause for grave concern.
+            </p>
+          </div>
+          <a
+            href="https://www.theguardian.com/technology/2024/dec/27/godfather-of-ai-raises-odds-of-the-technology-wiping-out-humanity-over-next-30-years"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gsap-cta invisible mt-12 inline-flex items-center gap-3 text-lg font-semibold text-blue-600 transition-transform hover:scale-105"
+          >
+            Read the full statement
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </span>
+          </a>
         </div>
-      </div>
-
-      {/* The <style jsx global> block has been removed. All styles are now handled by Tailwind CSS. */}
-    </div>
+      </section>
+    </>
   );
 };
 

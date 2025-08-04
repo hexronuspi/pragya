@@ -249,18 +249,17 @@ const Timeline: React.FC = () => {
     }, [isMobile, nodePositions]);
 
     return (
-        <section id="timeline" className="bg-white py-6 sm:py-8">
+        <section id="timeline" className="bg-white sm:py-2">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-3xl text-center">
-                    <p className="text-base font-semibold leading-7 text-indigo-600">Our Evolutionary Trajectory</p>
-                    <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">The DNA of Intelligence</h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">
+                    <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Evolution of AI</h2>
+                    <p className="text-lg leading-8 text-gray-600">
                         Modern artificial intelligence is a tapestry woven from decades of breakthroughs. Each discovery forms a strand in the double helix of innovation, leading to the powerful models of today.
                     </p>
                 </div>
             </div>
 
-            <div ref={containerRef} className="relative mt-20 sm:mt-28 w-full mx-auto max-w-6xl" style={{ height: isMobile ? 'auto' : '600px' }}>
+            <div ref={containerRef} className="relative sm:mt-2 w-full mx-auto max-w-6xl" style={{ height: isMobile ? 'auto' : '600px' }}>
                 {isMobile ? (
                     // --- PREMIUM Mobile Vertical Layout ---
                     <div className="mx-auto max-w-3xl px-6 flow-root">

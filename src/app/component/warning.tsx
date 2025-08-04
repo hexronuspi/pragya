@@ -43,24 +43,24 @@ const WarningContent: React.FC = () => (
   // This flex container stacks the text and image vertically and centers them.
   <div className="flex flex-col items-center gap-8 md:gap-12">
     {/* Textual Content */}
-    <div className="text-center max-w-3xl">
+    <div className="text-center max-w-4xl">
       <h3 className="font-serif text-4xl lg:text-5xl font-semibold tracking-tight">The Foundational Warning</h3>
-      <p className="text-neutral-500 mt-4 leading-relaxed max-w-2xl mx-auto">
-        Hinton’s empirically grounded concerns are not alarmist, but clinical. He outlined specific vectors where we are losing our ability to predict and govern AI behavior.
+      <p className="text-neutral-500 mt-4 leading-relaxed max-w-6xl mx-auto">
+        Despite rapid advances in AI capabilities, no major company is adequately prepared for AI safety, with all firms scoring D or lower in Existential Risk planning—Anthropic leads overall (C+), Meta scores poorly (D), and the industry shows a dangerous disconnect between ambition and safety infrastructure.
       </p>
     </div>
 
     {/* Image Content */}
     {/* This container defines the size for the Next.js Image component */}
-    <div className="relative w-[60vw] h-[50vh] max-w-4xl max-h-[500px]">
+    <div className="relative w-[70vw] h-[60vh] max-w-4xl max-h-[500px]">
       <Image
-        src="/pragya/benigo.png"
+        src="/pragya/safety.png"
         alt="Benigo"
         fill
         // `object-contain` ensures the image scales to fit without being cropped.
         className="object-contain"
         // This sizes prop tells the browser the image will be responsive.
-        sizes="(max-width: 768px) 80vw, 40vw"
+        sizes="(max-width: 768px) 100vw, 60vw"
         unoptimized={true}
       />
     </div>

@@ -103,14 +103,14 @@ className="min-h-screen w-full flex items-center justify-center p-8 overflow-hid
           className="text-3xl lg:text-4xl font-bold mb-4 text-cyan-400"
           style={{ opacity: 0 }} // Start invisible before JS animation
         >
-          The Post-Human Era of AI
+          The Post-Benchmark Era of AI: 
         </h2>
         <p 
           ref={paragraphRef}
           className="text-base lg:text-lg font-light leading-relaxed"
           style={{ opacity: 0 }} // Start invisible before JS animation
         >
-          AI has moved beyond human benchmarks. Once trained on human-labeled data and judged by human-level tasks, models now <span className='font-bold'>Benchmark</span> consistently <span className='italic'>outperform us</span>. This shift renders traditional metrics obsolete and brings forth a deeper challenge: <span className='font-bold'>superalignment</span>—ensuring models that exceed human cognition remain aligned with <span className='italic'>human intent</span>.
+          AI has moved beyond human benchmarks. Once trained on human-labeled data and judged by human-level tasks, models now consistently <span className='italic'>outperform us</span>. This shift renders traditional metrics obsolete and brings forth a deeper challenge: <span className='font-bold'>superalignment</span>—ensuring models that exceed human cognition remain aligned with <span className='italic'>human intent</span>.
         </p>
       </div>
 
