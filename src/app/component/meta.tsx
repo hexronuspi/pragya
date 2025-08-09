@@ -9,53 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
 
-/**
- * Custom SVG of abstract neural pathways, designed to be animated.
- */
-const NeuralNetworkVisual = () => (
-  <svg
-    width="100%"
-    height="100%"
-    viewBox="0 0 800 600"
-    preserveAspectRatio="xMidYMid slice"
-    className="absolute inset-0 h-full w-full"
-    aria-hidden="true"
-  >
-    <defs>
-      <linearGradient id="line-gradient-meta" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#3b82f6" /> {/* blue-500 */}
-        <stop offset="100%" stopColor="#60a5fa" /> {/* blue-400 */}
-      </linearGradient>
-    </defs>
-    <path
-      className="draw-path"
-      d="M-50,300 Q150,50 400,300 T750,500"
-      stroke="url(#line-gradient-meta)" strokeWidth="2" fill="none"
-    />
-    <path
-      className="draw-path"
-      d="M850,300 Q650,550 400,300 T50,100"
-      stroke="url(#line-gradient-meta)" strokeWidth="2" fill="none"
-    />
-    <path
-      className="draw-path"
-      d="M200,-50 Q300,300 400,300 T550,650"
-      stroke="url(#line-gradient-meta)" strokeWidth="2" fill="none"
-    />
-  </svg>
-);
-
-/**
- * An integrated, static section for Meta's Superintelligence Lab.
- *
- * This version solves the overlap problem by being a standard section in the
- * document flow.
- *
- * THE KEY TECHNIQUE: A CSS `mask-image` is applied to the background visual.
- * This creates a soft, radial fade, making the animated neural lines appear
- * to emerge from the center and disappear gracefully before reaching the
- * section's hard edges. This is a highly polished and professional effect.
- */
 const Meta: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
 
@@ -106,13 +59,6 @@ const Meta: React.FC = () => {
         ref={mainRef}
         className="relative w-full overflow-hidden bg-white py-24 sm:py-32 font-sans"
       >
-        {/* THE MASK CONTAINER: This is the core of the fade-out effect. */}
-        <div
-          className="absolute inset-0 [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black_40%,transparent_100%)]"
-        >
-          <NeuralNetworkVisual />
-        </div>
-
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-x-16 gap-y-20 lg:grid-cols-12">
             

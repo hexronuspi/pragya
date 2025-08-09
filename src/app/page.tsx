@@ -26,6 +26,7 @@ import Meta from './component/meta';
 import AetherConceptSection from './component/aether';
 import NNAetherConceptSection from './component/neuralaether';
 import DrDas from './component/drdas';
+import Paper4 from './component/paper4';
 
 const basePath = '/pragya';
 // Register the GSAP plugin
@@ -48,7 +49,7 @@ function HintonExperience() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: mainRef.current,
-          start: 'top 60%', // Start animation a bit earlier for this dramatic effect
+          start: 'top 60%',
           toggleActions: 'play none none reverse',
         },
       });
@@ -80,39 +81,26 @@ function HintonExperience() {
       className="relative px-6 py-24 overflow-hidden md:py-32"
       style={{ backgroundColor: PALETTE.white, fontFamily: "'Georgia', serif" }}
     >
-      <div className="relative mx-auto max-w-7xl">
-        {/* --- Background Visual (approx 65%) --- */}
-        {/* This div positions the StanfordIndex component to the right. */}
-        <div className="flex justify-end anim-bg-visual">
-          <div className="w-full md:w-3/5 lg:2/3">
-            {/* The StanfordIndex component is now the background element */}
+              <div className="flex flex-col md:flex-row md:items-center md:gap-12 lg:gap-16">
+          {/* Add the ref to the glassmorphism card */}
+          <div
+            className="w-full md:w-2/5 lg:w-5/12 p-8 lg:p-10 mb-8 md:mb-0 bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl"
+          >
+            <h2 className="mb-4 text-3xl font-bold tracking-tight text-palette-black md:text-4xl">
+              <span className="text-blue-700">Era of Surpassing Human Intelligence</span>
+            </h2>
+            <p className="text-lg leading-relaxed text-palette-gray md:text-xl">
+              According to the Stanford AI Index Report 2024 (1), today&apos;s foundation models exhibit staggering advances in scale and capability, yet the interpretability of their internal operations remains
+              alarmingly opaque. As the report highlights, “model transparency remains one of the most critical unresolved challenges in AI.”
+            </p>
+          </div>
+
+          {/* Add the ref to the visual component's container */}
+          <div className="w-full md:w-3/5 lg:w-7/12">
             <StanfordIndex />
           </div>
         </div>
 
-        {/* --- Foreground "Glassmorphism" Card (approx 35%) --- */}
-        {/* This card is absolutely positioned to overlay the background. */}
-        <div
-          className="
-            anim-glass-card
-            absolute top-1/2 left-0 -translate-y-1/2
-            w-full max-w-md p-8 mt-8 md:mt-0 md:w-4/5 lg:max-w-xl lg:p-10
-            bg-white/70 backdrop-blur-md
-            rounded-lg shadow-2xl
-            border border-gray-200/50
-          "
-        >
-          <h2 className="mb-4 text-3xl font-bold tracking-tight text-palette-black md:text-4xl">
-            <span className="text-blue-600">Era of Surpassing Human Intelligence</span>
-          </h2>
-
-          <p className="text-lg leading-relaxed text-palette-gray md:text-xl">
-            According to the Stanford AI Index Report 2024 (1), today&apos;s foundation models exhibit staggering advances in scale and capability, yet the interpretability of their internal operations remains
-alarmingly opaque. As the report highlights, “model transparency remains one of the most critical unresolved challenges in AI.”
-
-          </p>
-        </div>
-      </div>
     </section>
   );
 }
@@ -131,35 +119,9 @@ export default function Home() {
 <Hinton1/>
 <Watson/>
 <RatherBlank/>
-    <div>
-
-          <div className="w-full max-w-md space-y-4 md:hidden">
-        <div>
-          <p className="text-2xl font-bold text-gray-800">
-            Beyond the Black Box:
-          </p>
-          <p className="text-2xl font-bold text-gray-800">
-            A Crisis of Clarity
-          </p>
-        </div>
-        <div>
-          <p className="text-base text-gray-600">
-            According to the Stanford AI Index Report 2024 (1), today&apos;s foundation
-            models exhibit staggering advances in scale and capability, yet the
-            interpretability of their internal operations remains alarmingly
-            opaque. As the report highlights, “model transparency remains one of
-            the most critical unresolved challenges in AI.”
-          </p>
-        </div>
-        <div>
-          <StanfordIndex />
-        </div>
-      </div>
-
-      <div className="hidden md:block">
+  
         <HintonExperience />
-      </div>
-    </div>
+  
  <Super/>
       <FoundationalWarning/>
 <Bengio/>
@@ -172,7 +134,7 @@ export default function Home() {
  </div>
 
     <SamImageSection/>
-
+<Paper4/>
 <Percent/>
 <Meta/>
 

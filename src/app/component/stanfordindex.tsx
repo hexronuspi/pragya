@@ -118,7 +118,7 @@ const StanfordIndex = () => {
   const xAxisLabels = Array.from({ length: X_MAX - X_MIN + 2 }, (_, i) => X_MIN + i);
 
   return (
-    <div className="font-sans flex flex-col items-center justify-center w-full ml-20">
+    <div className="font-sans flex flex-col items-center justify-center w-full">
       <div className="w-full max-w-6xl">
         
         <div className="relative w-full">
