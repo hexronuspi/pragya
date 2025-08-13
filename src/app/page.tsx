@@ -57,7 +57,7 @@ function HintonExperience() {
             className="w-full md:w-2/5 lg:w-5/12 p-8 lg:p-10 mb-8 md:mb-0 bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl"
           >
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-palette-black md:text-4xl">
-              <span className="text-blue-700">The Era Surpassing Human Intelligence</span>
+              <span className="text-blue-700">The Era of Surpassing Human Intelligence</span>
             </h2>
             <p className="text-lg leading-relaxed text-palette-gray md:text-xl">
               According to the Stanford AI Index Report 2024, today&apos;s foundation models exhibit staggering advances in scale and capability, yet the interpretability of their internal operations remains
@@ -149,4 +149,5 @@ export default function Home() {
       </footer>
     </main>
   );
+
 }
