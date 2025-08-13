@@ -1,11 +1,15 @@
 "use client"; // Required for using hooks like useState and useEffect in Next.js App Router
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 const Paper3 = () => {
   // State to track if the screen is small, triggering the mobile layout
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  // State to track if the author list is expanded
+  const [isExpanded, setIsExpanded] = useState(false);
+  // Ref for the author list container for smooth animation
+  const authorListRef = useRef<HTMLDivElement>(null);
 
   // This effect runs on the client to determine screen size
   useEffect(() => {
@@ -23,6 +27,43 @@ const Paper3 = () => {
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []); // The empty dependency array ensures this effect runs only once on mount
 
+  // Effect to handle smooth animation of height for the author list
+  useEffect(() => {
+    if (!authorListRef.current) return;
+    
+    const authorList = authorListRef.current;
+    
+    if (isExpanded) {
+      // Get the scrollHeight to know the full height when expanded
+      const height = authorList.scrollHeight;
+      authorList.style.height = '0px';
+      // Trigger reflow
+      void authorList.offsetHeight;
+      // Start transition to the full height
+      authorList.style.height = `${height}px`;
+    } else {
+      // If we're collapsing, first set the height explicitly to the current height
+      authorList.style.height = `${authorList.scrollHeight}px`;
+      // Trigger reflow
+      void authorList.offsetHeight;
+      // Then animate to 0
+      authorList.style.height = '0px';
+    }
+    
+    // When transition ends, if expanded, set height to auto to handle content changes
+    const handleTransitionEnd = () => {
+      if (isExpanded) {
+        authorList.style.height = 'auto';
+      }
+    };
+    
+    authorList.addEventListener('transitionend', handleTransitionEnd);
+    
+    return () => {
+      authorList.removeEventListener('transitionend', handleTransitionEnd);
+    };
+  }, [isExpanded]);
+
   const affiliationStyle = {
     fontStyle: 'italic',
     color: '#333'
@@ -33,6 +74,43 @@ const Paper3 = () => {
     fontSize: 'clamp(0.8rem, 0.75rem + 0.5vw, 0.875rem)',
     lineHeight: '1.6',
     margin: 0
+  };
+  
+  // Styles for the toggle button
+  const toggleButtonStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    width: '100%',
+    padding: '8px 16px',
+    backgroundColor: '#f5f5f5',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: 'clamp(0.8rem, 0.75rem + 0.5vw, 0.9rem)',
+    transition: 'background-color 0.2s ease',
+    marginBottom: isExpanded ? '16px' : '24px',
+    fontWeight: '500',
+    color: '#444'
+  };
+
+  // Style for the chevron icon
+  const chevronStyle = {
+    transition: 'transform 0.3s ease',
+    transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+    display: 'inline-block',
+    fontSize: '1.2em',
+    position: 'relative' as const,
+    top: '1px'
+  };
+
+  // Style for the author list container
+  const authorListStyle = {
+    overflow: 'hidden',
+    transition: 'height 0.4s ease-in-out',
+    height: '0px'
   };
 
   return (
@@ -84,48 +162,66 @@ const Paper3 = () => {
           <div>Mikita Balesni<sup>*</sup> <span style={affiliationStyle}>Apollo Research</span></div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row', justifyContent: 'space-between', marginBottom: '24px', gap: '20px' }}>
-          {/* Left Author Column */}
-          <div style={{ flex: 1 }}>
-            <p style={authorStyle}>Elizabeth Barnes <span style={affiliationStyle}>METR</span></p>
-            <p style={authorStyle}>Joe Benton <span style={affiliationStyle}>Anthropic</span></p>
-            <p style={authorStyle}>Mark Chen <span style={affiliationStyle}>OpenAI</span></p>
-            <p style={authorStyle}>Allan Dafoe <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Scott Emmons <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>David Farhi <span style={affiliationStyle}>OpenAI</span></p>
-            <p style={authorStyle}>Dan Hendrycks <span style={affiliationStyle}>Center for AI Safety</span></p>
-            <p style={authorStyle}>Evan Hubinger <span style={affiliationStyle}>Anthropic</span></p>
-            <p style={authorStyle}>Erik Jenner <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Victoria Krakovna <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>David Lindner <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Aleksander Mądry <span style={affiliationStyle}>OpenAI</span></p>
-            <p style={authorStyle}>Neel Nanda <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Jakub Pachocki <span style={affiliationStyle}>OpenAI</span></p>
-            <p style={authorStyle}>Mary Phuong <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Joshua Saxe <span style={affiliationStyle}>Meta</span></p>
-            <p style={authorStyle}>Martín Soto <span style={affiliationStyle}>UK AI Security Institute</span></p>
-            <p style={authorStyle}>Jasmine Wang <span style={affiliationStyle}>UK AI Security Institute</span></p>
-          </div>
-          {/* Right Author Column */}
-          <div style={{ flex: 1 }}>
-            <p style={authorStyle}>Yoshua Bengio <span style={affiliationStyle}>University of Montreal & Mila</span></p>
-            <p style={authorStyle}>Joseph Bloom <span style={affiliationStyle}>UK AI Security Institute</span></p>
-            <p style={authorStyle}>Alan Cooney <span style={affiliationStyle}>UK AI Security Institute</span></p>
-            <p style={authorStyle}>Anca Dragan <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Owain Evans <span style={affiliationStyle}>Truthful AI & UC Berkeley</span></p>
-            <p style={authorStyle}>Ryan Greenblatt <span style={affiliationStyle}>Redwood Research</span></p>
-            <p style={authorStyle}>Marius Hobbhahn <span style={affiliationStyle}>Apollo Research</span></p>
-            <p style={authorStyle}>Geoffrey Irving <span style={affiliationStyle}>UK AI Security Institute</span></p>
-            <p style={authorStyle}>Daniel Kokotajlo <span style={affiliationStyle}>AI Futures Project</span></p>
-            <p style={authorStyle}>Shane Legg <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>David Luan <span style={affiliationStyle}>Amazon</span></p>
-            <p style={authorStyle}>Julian Michael <span style={affiliationStyle}>Scale AI</span></p>
-            <p style={authorStyle}>Dave Orr <span style={affiliationStyle}>Google DeepMind</span></p>
-            <p style={authorStyle}>Ethan Perez <span style={affiliationStyle}>Anthropic</span></p>
-            <p style={authorStyle}>Fabien Roger <span style={affiliationStyle}>Anthropic</span></p>
-            <p style={authorStyle}>Buck Shlegeris <span style={affiliationStyle}>Redwood Research</span></p>
-            <p style={authorStyle}>Eric Steinberger <span style={affiliationStyle}>Magic</span></p>
-            <p style={authorStyle}>Wojciech Zaremba <span style={affiliationStyle}>OpenAI</span></p>
+        {/* Author list toggle button */}
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          style={toggleButtonStyle}
+          aria-expanded={isExpanded}
+          aria-controls="author-list"
+        >
+          {isExpanded ? 'Hide Extended Author List' : 'View Extended Author List'} 
+          <span style={chevronStyle}>{isExpanded ? '▲' : '▼'}</span>
+        </button>
+
+        {/* Collapsible author list */}
+        <div 
+          ref={authorListRef} 
+          id="author-list"
+          style={authorListStyle}
+        >
+          <div style={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row', justifyContent: 'space-between', gap: '20px' }}>
+            {/* Left Author Column */}
+            <div style={{ flex: 1 }}>
+              <p style={authorStyle}>Elizabeth Barnes <span style={affiliationStyle}>METR</span></p>
+              <p style={authorStyle}>Joe Benton <span style={affiliationStyle}>Anthropic</span></p>
+              <p style={authorStyle}>Mark Chen <span style={affiliationStyle}>OpenAI</span></p>
+              <p style={authorStyle}>Allan Dafoe <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Scott Emmons <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>David Farhi <span style={affiliationStyle}>OpenAI</span></p>
+              <p style={authorStyle}>Dan Hendrycks <span style={affiliationStyle}>Center for AI Safety</span></p>
+              <p style={authorStyle}>Evan Hubinger <span style={affiliationStyle}>Anthropic</span></p>
+              <p style={authorStyle}>Erik Jenner <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Victoria Krakovna <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>David Lindner <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Aleksander Mądry <span style={affiliationStyle}>OpenAI</span></p>
+              <p style={authorStyle}>Neel Nanda <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Jakub Pachocki <span style={affiliationStyle}>OpenAI</span></p>
+              <p style={authorStyle}>Mary Phuong <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Joshua Saxe <span style={affiliationStyle}>Meta</span></p>
+              <p style={authorStyle}>Martín Soto <span style={affiliationStyle}>UK AI Security Institute</span></p>
+              <p style={authorStyle}>Jasmine Wang <span style={affiliationStyle}>UK AI Security Institute</span></p>
+            </div>
+            {/* Right Author Column */}
+            <div style={{ flex: 1 }}>
+              <p style={authorStyle}>Yoshua Bengio <span style={affiliationStyle}>University of Montreal & Mila</span></p>
+              <p style={authorStyle}>Joseph Bloom <span style={affiliationStyle}>UK AI Security Institute</span></p>
+              <p style={authorStyle}>Alan Cooney <span style={affiliationStyle}>UK AI Security Institute</span></p>
+              <p style={authorStyle}>Anca Dragan <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Owain Evans <span style={affiliationStyle}>Truthful AI & UC Berkeley</span></p>
+              <p style={authorStyle}>Ryan Greenblatt <span style={affiliationStyle}>Redwood Research</span></p>
+              <p style={authorStyle}>Marius Hobbhahn <span style={affiliationStyle}>Apollo Research</span></p>
+              <p style={authorStyle}>Geoffrey Irving <span style={affiliationStyle}>UK AI Security Institute</span></p>
+              <p style={authorStyle}>Daniel Kokotajlo <span style={affiliationStyle}>AI Futures Project</span></p>
+              <p style={authorStyle}>Shane Legg <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>David Luan <span style={affiliationStyle}>Amazon</span></p>
+              <p style={authorStyle}>Julian Michael <span style={affiliationStyle}>Scale AI</span></p>
+              <p style={authorStyle}>Dave Orr <span style={affiliationStyle}>Google DeepMind</span></p>
+              <p style={authorStyle}>Ethan Perez <span style={affiliationStyle}>Anthropic</span></p>
+              <p style={authorStyle}>Fabien Roger <span style={affiliationStyle}>Anthropic</span></p>
+              <p style={authorStyle}>Buck Shlegeris <span style={affiliationStyle}>Redwood Research</span></p>
+              <p style={authorStyle}>Eric Steinberger <span style={affiliationStyle}>Magic</span></p>
+              <p style={authorStyle}>Wojciech Zaremba <span style={affiliationStyle}>OpenAI</span></p>
+            </div>
           </div>
         </div>
 
@@ -140,7 +236,7 @@ const Paper3 = () => {
             Abstract
           </h2>
           <p style={{ fontSize: 'clamp(0.9rem, 0.8rem + 0.5vw, 1rem)' /* 11pt */, textAlign: 'justify', lineHeight: '1.5', margin: 0 }}>
-            AI systems that “think” in human language offer a unique opportunity for AI safety: we can monitor their chains of thought (CoT) for the intent to misbehave. Like all other known AI oversight methods, CoT monitoring is imperfect and allows some misbehavior to go unnoticed. Nevertheless, it shows promise and we recommend further research into CoT monitorability and investment in CoT monitoring alongside existing safety methods. Because CoT monitorability may be fragile, we recommend that frontier model developers consider the impact of development decisions on CoT monitorability.
+            AI systems that &quot;think&quot; in human language offer a unique opportunity for AI safety: we can monitor their chains of thought (CoT) for the intent to misbehave. Like all other known AI oversight methods, CoT monitoring is imperfect and allows some misbehavior to go unnoticed. Nevertheless, it shows promise and we recommend further research into CoT monitorability and investment in CoT monitoring alongside existing safety methods. Because CoT monitorability may be fragile, we recommend that frontier model developers consider the impact of development decisions on CoT monitorability.
           </p>
         </div>
 
