@@ -35,7 +35,7 @@ const Paper4 = () => {
       fontFamily: '"Times New Roman", Times, serif',
       color: '#000',
       // Add a max-width for better readability on very large screens and center the layout
-      maxWidth: '1000px',
+      maxWidth: '1600px',
       margin: '0 auto',
       boxSizing: 'border-box',
     }}
@@ -135,6 +135,46 @@ const Paper4 = () => {
            }}>
              View PDF →
            </Link>
+        </div>
+      </div>
+      <div style={{
+        // On small screens, this column takes up the full width
+        flex: isSmallScreen ? '1 1 100%' : '2',
+        // The content is only sticky on large screens
+        position: isSmallScreen ? 'relative' : 'sticky',
+        top: '40px',
+        minWidth: isSmallScreen ? 'unset' : '300px',
+        width: '100%',
+        boxSizing: 'border-box',
+      }}>
+        <h2 style={{
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif',
+          fontWeight: '600',
+          marginBottom: '16px',
+          fontSize: 'clamp(1.1rem, 0.9rem + 1vw, 1.3rem)',
+        }}>
+          PERSONA VECTORS: MONITORING AND CONTROLLING CHARACTER TRAITS IN LANGUAGE MODELS
+        </h2>
+        <div style={{
+          padding: '25px',
+          borderRadius: '8px',
+          border: '1px solid #e0e0e0',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          fontFamily: 'Georgia, serif',
+          lineHeight: '1.7',
+          // 17px ≈ 1.06rem
+          fontSize: 'clamp(0.95rem, 0.85rem + 0.5vw, 1.06rem)',
+          color: '#333'
+        }}>
+          <div style={{margin: 0}}>
+                <div>
+                  <span>LLMs Assistant persona can fluctuate undesirably.
+                  This paper introduces persona vectors, directions in activation space representing traits like evil, sycophancy, or hallucination.
+                 These vectors monitor and predict persona shifts during deployment and training, mitigating unintended changes. They also flag problematic training data.
+                  The automated method extracts vectors from natural language descriptions, offering a new tool for understanding and controlling LLM personality.</span>
+                </div>
+          </div>
         </div>
       </div>
 

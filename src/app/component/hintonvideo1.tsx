@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -93,7 +94,7 @@ export default function Hinton1() {
         </div>
 
         {/* Right Column - YouTube Video */}
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <div ref={videoContainerRef} className="relative w-full rounded-lg shadow-2xl overflow-hidden" style={{ paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
             <iframe
               className="absolute top-0 left-0 w-full h-full border-0"
@@ -103,6 +104,47 @@ export default function Hinton1() {
               allowFullScreen
             ></iframe>
           </div>
+          
+          {/* Button Below Video */}
+          <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-start' }}>
+          <Link
+            href="https://www.youtube.com/watch?v=gGjBpCbIYC0"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#ff0000',
+              color: 'white',
+              borderRadius: '50px',
+              padding: '8px 16px',
+              textDecoration: 'none',
+              fontFamily: 'Arial, sans-serif',
+              fontWeight: '600',
+              fontSize: '14px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#cc0000';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.25)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#ff0000';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+            }}
+          >
+            <svg 
+              style={{ width: '20px', height: '20px', marginRight: '8px', flexShrink: 0 }}
+              fill="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            Watch on YouTube
+          </Link>
+        </div>
+          
         </div>
       </div>
     </section>

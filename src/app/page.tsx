@@ -15,6 +15,7 @@ import { RatherBlank } from './component/ratherblank';
 import { Super } from './component/super';
 import FoundationalWarning from './component/warning';
 import {SamImageSection} from './component/sam';
+import {Videogpt} from './component/gpt';
 import Ndna from './component/ndna';
 import StanfordIndex from './component/stanfordindex';
 import Bengio from './component/bengio';
@@ -68,6 +69,7 @@ function HintonExperience() {
           <div className="w-full md:w-3/5 lg:w-7/12">
             <StanfordIndex />
           </div>
+          
         </div>
 
     </section>
@@ -108,6 +110,7 @@ export default function Home() {
 
     <SamImageSection/>
 <Paper4/>
+<Videogpt/>
 <Meta/>
 
 <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl flex justify-center mb-2">

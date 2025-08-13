@@ -305,7 +305,7 @@ const Paper3 = () => {
           marginBottom: '16px',
           fontSize: 'clamp(1.1rem, 0.9rem + 1vw, 1.3rem)',
         }}>
-          CoT: A Structural Constraint, Not a Reasoning Engine
+          Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety
         </h2>
         <div style={{
           padding: '25px',
@@ -318,9 +318,9 @@ const Paper3 = () => {
           fontSize: 'clamp(0.95rem, 0.85rem + 0.5vw, 1.06rem)',
           color: '#333'
         }}>
-          <p style={{margin: 0}}>
+          <div style={{margin: 0}}>
             <strong>Models often generate plausible-sounding reasoning that hides how decisions are made.</strong> They frequently <strong>select answers first</strong> and only then produce <em>post-hoc rationalizations</em> through chain-of-thought responses.
-          </p>
+          </div>
         </div>
       </div>
     </div>

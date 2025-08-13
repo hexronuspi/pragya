@@ -4,6 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Inter, Lexend_Deca } from 'next/font/google';
+import Link from 'next/link';
 
 // --- 1. FONT & STYLE DEFINITIONS ---
 
@@ -48,26 +49,56 @@ const WarningContent: React.FC = () => (
       --- RESPONSIVE IMAGE CONTAINER ---
       This container is now responsive, adapting its size for different screens.
     */}
-    <div
-      className="
-        relative
-        /* Mobile styles (default): takes up 90% of screen width with a 16:9 aspect ratio */
-        w-[90vw] aspect-video max-h-[40vh]
-        /* Desktop styles (md breakpoint and up): reverts to the original fixed-height layout */
-        md:w-[70vw] md:h-[60vh] md:max-h-[500px] md:aspect-auto
-        /* Universal constraint */
-        max-w-4xl
-      "
-    >
-      <Image
-        src="/pragya/safety.png"
-        alt="A chart showing the AI Safety Risk Index for companies like Meta, Google, OpenAI, and Anthropic."
-        fill
-        className="object-contain"
-        // The `sizes` prop is updated to reflect the new responsive widths for better performance.
-        sizes="(max-width: 768px) 90vw, 70vw"
-        unoptimized={true}
-      />
+    <div className="flex flex-col items-center gap-6 max-w-4xl">
+      {/* Image Container */}
+      <div
+        className="
+          relative
+          /* Mobile styles (default): takes up 90% of screen width with a 16:9 aspect ratio */
+          w-[90vw] aspect-video max-h-[40vh]
+          /* Desktop styles (md breakpoint and up): reverts to the original fixed-height layout */
+          md:w-[70vw] md:h-[60vh] md:max-h-[500px] md:aspect-auto
+          /* Universal constraint */
+          max-w-4xl
+        "
+      >
+        <Image
+          src="/pragya/safety.png"
+          alt="A chart showing the AI Safety Risk Index for companies like Meta, Google, OpenAI, and Anthropic."
+          fill
+          className="object-contain"
+          // The `sizes` prop is updated to reflect the new responsive widths for better performance.
+          sizes="(max-width: 768px) 90vw, 70vw"
+          unoptimized={true}
+        />
+      </div>
+
+      {/* Button Below Image */}
+      <div className="py-4">
+        <Link
+          href="https://futureoflife.org/ai-safety-index-summer-2025/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            inline-flex items-center justify-center gap-2 px-6 py-3 
+            bg-blue-600 hover:bg-blue-700 
+            text-white font-medium rounded-lg 
+            transition-all duration-300 
+            shadow-lg hover:shadow-xl
+            transform hover:scale-105
+          "
+        >
+          <svg 
+            className="w-5 h-5" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          View Full Report
+        </Link>
+      </div>
     </div>
   </div>
 );
@@ -92,15 +123,10 @@ const FoundationalWarning: React.FC = () => {
       */}
       <div className="relative w-full min-h-screen bg-white flex items-center justify-center">
         <GridBackground />
-
-        {/*
-          --- CONTENT PANEL ---
-          - `z-10`: Ensures this content appears above the background grid.
-          - Padding is now responsive, using less space on small screens (`p-4`) and more on larger ones.
-        */}
         <div className="relative z-10 w-full p-4 sm:p-8 md:p-16">
           <WarningContent />
         </div>
+        
       </div>
 
       <GlobalStyles />

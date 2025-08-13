@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 // Define the component's props for type safety and clarity.
 interface SplitScreenWarningProps {
@@ -24,6 +25,8 @@ const SplitScreenWarning: React.FC<SplitScreenWarningProps> = ({
   basePath,
   PALETTE,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <section
       style={{ backgroundColor: PALETTE.white, color: PALETTE.black }}
@@ -69,17 +72,49 @@ const SplitScreenWarning: React.FC<SplitScreenWarningProps> = ({
             VISUAL CONTENT: Spans 5 of 12 columns on large screens.
             This column provides visual context without overpowering the message.
           */}
-          <div className="lg:col-span-5">
-                          <video
+          <div className="lg:col-span-5 relative">
+            <video
               src={`${basePath}/hinton_nobel.mp4`}
-              className="rounded-lg shadow-2xl"
+              className="rounded-lg shadow-2xl w-full"
               playsInline
               controls
               muted // Muting is best practice for autoplay and general UX
             >
               Your browser does not support the video tag.
             </video>
-          </div>
+            
+            {/* YouTube Button - Below Video */}
+            <div className="mt-4 flex justify-start">
+              <Link
+                href="https://www.youtube.com/watch?v=-f5WQAk3dYo&pp=ygUZaGludG9uIG5vYmVsIHByaXplIHNwZWVjaA%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center bg-red-600 hover:bg-red-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                style={{
+                  padding: isHovered ? '8px 16px' : '8px',
+                  width: isHovered ? 'auto' : '40px',
+                  height: '40px'
+                }}
+              >
+                <svg 
+                  className="w-6 h-6 flex-shrink-0" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span 
+                  className={`ml-2 text-sm font-medium whitespace-nowrap transition-opacity duration-300 ${
+                    isHovered ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'
+                  }`}
+                >
+                  Watch on YouTube
+                </span>
+              </Link>
+            </div>
+          </div>  
         </div>
       </div>
     </section>

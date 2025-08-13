@@ -114,16 +114,16 @@ const Paper2 = () => {
           text-center font-sans font-semibold mb-4
           text-[clamp(1.1rem,0.9rem+1vw,1.3rem)]
         ">
-          LLMs: Are They Awake?
+          Large Language Models Often Know When They Are Being Evaluated
         </h2>
         <div className="
           p-6 rounded-lg border border-gray-200 shadow-md 
           leading-relaxed text-base lg:text-lg font-serif
         "
         >
-          <p>
+          <div>
             Evaluation Awareness: <strong className="font-bold">Frontier language models often exhibit evaluation awareness</strong>—they can detect when they’re being tested and may adapt their behavior accordingly.
-          </p>
+          </div>
         </div>
       </div>
 

@@ -4,6 +4,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 // --- TYPE DEFINITIONS ---
 type Point = { year: number; value: number };
@@ -220,6 +222,17 @@ const StanfordIndex = () => {
               On a lot of intellectual task categories, AI has exceeded human performance.
             </p>
         </div>
+        <div className="mt-6 text-center">
+            <Link
+              href="https://hai.stanford.edu/ai-index/2024-ai-index-report"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm font-medium text-blue-700 hover:text-blue-800 transition-colors duration-200"
+            >
+              View 2024 AI Index Report
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
       </div>
     </div>
   );
