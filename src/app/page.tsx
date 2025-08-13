@@ -27,6 +27,7 @@ import AetherConceptSection from './component/aether';
 import NNAetherConceptSection from './component/neuralaether';
 import DrDas from './component/drdas';
 import Paper4 from './component/paper4';
+import Bar from './component/bar';
 
 const basePath = '/pragya';
 // Register the GSAP plugin
@@ -43,37 +44,6 @@ const PALETTE = {
 function HintonExperience() {
   const mainRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // We target the main container for the GSAP context
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: mainRef.current,
-          start: 'top 60%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      // Animate the background visual first (subtly)
-      tl.from('.anim-bg-visual', {
-        autoAlpha: 0,
-        scale: 0.95,
-        duration: 1.5,
-        ease: 'power2.inOut',
-      })
-      // Animate the "glass" card sliding in from the left
-      .from('.anim-glass-card', {
-        autoAlpha: 0,
-        xPercent: -100,
-        duration: 1.2,
-        ease: 'power3.out',
-      }, '-=1.2'); // Overlap animations for a smoother effect
-
-    }, mainRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     // The ref is now on the main section container
     <section
@@ -87,10 +57,10 @@ function HintonExperience() {
             className="w-full md:w-2/5 lg:w-5/12 p-8 lg:p-10 mb-8 md:mb-0 bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl"
           >
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-palette-black md:text-4xl">
-              <span className="text-blue-700">Era of Surpassing Human Intelligence</span>
+              <span className="text-blue-700">The Era Surpassing Human Intelligence</span>
             </h2>
             <p className="text-lg leading-relaxed text-palette-gray md:text-xl">
-              According to the Stanford AI Index Report 2024 (1), today&apos;s foundation models exhibit staggering advances in scale and capability, yet the interpretability of their internal operations remains
+              According to the Stanford AI Index Report 2024, today&apos;s foundation models exhibit staggering advances in scale and capability, yet the interpretability of their internal operations remains
               alarmingly opaque. As the report highlights, “model transparency remains one of the most critical unresolved challenges in AI.”
             </p>
           </div>
@@ -109,6 +79,10 @@ function HintonExperience() {
 export default function Home() {
   return (
     <main style={{ backgroundColor: PALETTE.white }}>
+      <Bar
+        imageUrl="/pragya/pragya.webp" // <--- IMPORTANT: Replace with your actual image path
+        imageAlt="Descriptive alt text for the image"
+      ></Bar>
       <History/>
       {/* 
       */}
@@ -135,7 +109,6 @@ export default function Home() {
 
     <SamImageSection/>
 <Paper4/>
-<Percent/>
 <Meta/>
 
 <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl flex justify-center mb-2">

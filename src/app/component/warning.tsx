@@ -1,14 +1,9 @@
 // /components/FoundationalWarning.js
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Inter, Lexend_Deca } from 'next/font/google';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Register the GSAP ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 // --- 1. FONT & STYLE DEFINITIONS ---
 
@@ -44,7 +39,7 @@ const WarningContent: React.FC = () => (
   <div className="flex flex-col items-center gap-8 md:gap-12">
     {/* Textual Content */}
     <div className="text-center max-w-4xl">
-      <h3 className="font-serif text-4xl lg:text-5xl font-semibold tracking-tight">The Foundational Warning</h3>
+      <h3 className="font-serif text-4xl lg:text-5xl font-semibold tracking-tight">The Risk Index</h3>
       <p className="text-neutral-500 mt-4 leading-relaxed max-w-6xl mx-auto">
         Despite rapid advances in AI capabilities, no major company is adequately prepared for AI safety, with all firms scoring D or lower in Existential Risk planning—Anthropic leads overall (C+), Meta scores poorly (D), and the industry shows a dangerous disconnect between ambition and safety infrastructure.
       </p>
@@ -68,74 +63,21 @@ const WarningContent: React.FC = () => (
 );
 
 
-// --- 3. CUSTOM ANIMATION HOOK ---
-
-/**
- * A custom hook to encapsulate the GSAP scroll-triggered animation logic.
- * @param componentRef - Ref to the main pinning container.
- * @param contentPanelRef - Ref to the element that will be animated.
- */
-const useWarningAnimation = (
-  componentRef: React.RefObject<HTMLDivElement>,
-  contentPanelRef: React.RefObject<HTMLDivElement>
-) => {
-  useEffect(() => {
-    const component = componentRef.current;
-    const contentPanel = contentPanelRef.current;
-    if (!component || !contentPanel) return;
-
-    const ctx = gsap.context(() => {
-      // Set the initial state of the content panel
-      gsap.set(contentPanel, { yPercent: -100, autoAlpha: 0 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: component,
-          pin: true,
-          scrub: 1,
-          start: 'top top',
-          end: '+=2500', // The animation will last for 2500px of scroll
-        },
-      });
-
-      // Define the animation sequence
-      tl.to(contentPanel, { yPercent: 0, autoAlpha: 1, ease: 'power2.out', duration: 2 }) // Animate in
-        .to({}, { duration: 6 }) // Hold the view for a moment
-        .to(contentPanel, { yPercent: -100, autoAlpha: 0, ease: 'power2.in', duration: 2 }); // Animate out
-
-    }, component);
-
-    // Cleanup function to revert GSAP animations and kill ScrollTriggers
-    return () => {
-      ctx.revert();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [componentRef, contentPanelRef]);
-};
-
-
-// --- 4. MAIN COMPONENT (ORCHESTRATOR) ---
+// --- 3. MAIN COMPONENT (ORCHESTRATOR) ---
 
 /**
  * The main FoundationalWarning component.
- * It assembles the UI pieces and uses the custom animation hook
- * to create a pinned, scroll-driven animation.
+ * It assembles the UI pieces into a static, full-screen section.
  */
 const FoundationalWarning: React.FC = () => {
-  const componentRef = useRef<HTMLDivElement | null>(null);
-  const contentPanelRef = useRef<HTMLDivElement | null>(null);
-
-  // Apply the animation logic via the custom hook
-  useWarningAnimation(componentRef, contentPanelRef);
-
   return (
     <div className={`${inter.variable} ${lexend.variable} font-sans text-neutral-800 antialiased`}>
-      {/* This is the main container that will be pinned to the screen */}
-      <div ref={componentRef} className="relative w-full h-screen bg-white overflow-hidden">
+      {/* This is the main container that fills the screen */}
+      <div className="relative w-full h-screen bg-white overflow-hidden">
         <GridBackground />
 
-        {/* This is the content panel that will animate */}
-        <div ref={contentPanelRef} className="absolute inset-0 flex items-center justify-center p-8 md:p-16">
+        {/* This is the content panel, centered within the container */}
+        <div className="absolute inset-0 flex items-center justify-center p-8 md:p-16">
           <WarningContent />
         </div>
       </div>

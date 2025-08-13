@@ -65,16 +65,16 @@ const Meta: React.FC = () => {
             {/* LEFT COLUMN: Text Content */}
             <div className="gsap-text-content lg:col-span-5">
               <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-                Superintelligence?
+                Meta AI Lab
               </h2>
               <p className="mt-6 text-lg leading-8 text-neutral-600">
-                Meta has launched the Superintelligence Lab to pioneer personalized AI at massive scale, aiming to build deeply adaptive assistants that empower individual users with superintelligent capabilities.
+                Meta&apos;s Superintelligence Lab is developing next-generation AI assistants, tailored to individuals and designed to evolve toward superintelligent capabilities.
               </p>
             </div>
 
             {/* RIGHT COLUMN: Video Player */}
             <div className="gsap-video-container lg:col-span-7">
-              <div className="rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:p-3">
+              <div className="rounded-xl p-2 lg:p-3">
                 <div className="aspect-video">
                   <iframe
                     src="https://www.youtube.com/embed/pcgBEoqqgwU"

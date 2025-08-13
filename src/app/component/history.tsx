@@ -74,12 +74,9 @@ export default function History(): JSX.Element {
         {/* Section Header */}
         <div className="max-w-5xl">
           <p ref={eyebrowRef} className="font-mono text-sm uppercase tracking-widest text-yellow-600/70 mb-4">
-            <Link href='https://pragyaai.github.io/' target="_blank">
-            PRAGYA LAB
-            </Link>
           </p>
           <h1 ref={titleRef} className="text-4xl md:text-[3.5rem] font-medium !leading-tight text-gray-900" style={{ fontFamily: '"Source Serif 4", serif' }}>
-            Neural networks, foundation of modern Artificial Intelligence (AI)
+            Neural networks - The foundation for modern Artificial Intelligence (AI)
           </h1>
         </div>
         

@@ -127,7 +127,7 @@ const StanfordIndex = () => {
             
             {/* Y-axis Title */}
             <text
-              transform={`translate(35, ${PADDING.top + CHART_HEIGHT / 2}) rotate(-90)`}
+              transform={`translate(20, ${PADDING.top + CHART_HEIGHT / 2}) rotate(-90)`}
               textAnchor="middle"
               className="text-base text-[#495057] fill-current"
             >

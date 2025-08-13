@@ -56,7 +56,7 @@ export default function Hinton1() {
     return () => ctx.revert();
   }, []);
 
-  const youtubeEmbedUrl = "https://www.youtube.com/embed/qrvK_KuIeJk?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0";
+  const youtubeEmbedUrl = "https://www.youtube.com/embed/gGjBpCbIYC0?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0";
 
   return (
     <section

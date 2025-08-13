@@ -28,7 +28,7 @@ const Paper1 = () => {
 
   // The YouTube video ID and playlist ID
   const videoId = 'hcvdgnFmnUo';
-  const videoSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1`;
+  const videoSrc = `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1`;
 
   return (
     <div style={{

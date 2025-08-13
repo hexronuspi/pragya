@@ -42,7 +42,7 @@ const Bengio: NextPage = () => {
             variants={fadeUp}
             className="text-4xl font-semibold tracking-tight text-zinc-800 md:text-5xl lg:text-6xl"
           >
-            On the Emergence of Deceptive Behaviors in AI
+            The Emergence of Deceptive Behaviors in AI
           </motion.h1>
 
           <motion.div

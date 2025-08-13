@@ -23,10 +23,6 @@ const Paper4 = () => {
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []); // The empty dependency array ensures this effect runs only once on mount
 
-  // The YouTube video ID and playlist ID
-  const videoId = 'FTeeXGuUPig';
-  const videoSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1`;
-
   return (
     <div style={{
       display: 'flex',
@@ -39,10 +35,11 @@ const Paper4 = () => {
       fontFamily: '"Times New Roman", Times, serif',
       color: '#000',
       // Add a max-width for better readability on very large screens and center the layout
-      maxWidth: '1600px',
+      maxWidth: '1000px',
       margin: '0 auto',
       boxSizing: 'border-box',
-    }}>
+    }}
+    >
 
       {/* Left Column: The Paper Content */}
       <div style={{
@@ -138,52 +135,6 @@ const Paper4 = () => {
            }}>
              View PDF →
            </Link>
-        </div>
-      </div>
-
-      {/* Right Column: The YouTube Video */}
-      <div style={{
-        // On small screens, this column takes up the full width
-        flex: isSmallScreen ? '1 1 100%' : '2',
-        // The video is only sticky on large screens
-        position: isSmallScreen ? 'relative' : 'sticky',
-        top: '40px',
-        minWidth: isSmallScreen ? 'unset' : '300px',
-        width: '100%',
-        boxSizing: 'border-box',
-      }}>
-        <h2 style={{
-          textAlign: 'center',
-          fontFamily: 'Arial, sans-serif',
-          fontWeight: '600',
-          marginBottom: '16px',
-          fontSize: 'clamp(1.1rem, 0.9rem + 1vw, 1.3rem)',
-        }}>
-          Persona Vectors
-        </h2>
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          paddingBottom: '56.25%', // 16:9 aspect ratio
-          height: 0,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          borderRadius: '8px',
-          overflow: 'hidden'
-        }}>
-          <iframe
-            src={videoSrc}
-            title="Persona Vectors: Monitoring and Controlling Character Traits in Language Models"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
-          ></iframe>
         </div>
       </div>
 

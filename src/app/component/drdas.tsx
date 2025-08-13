@@ -80,7 +80,7 @@ const DrDas: React.FC = () => {
             {/* LEFT COLUMN: Text Content */}
             <div className="gsap-text-content lg:col-span-5">
               <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-                Our thoughts?
+                Digital Semantic Beings
               </h2>
               <p className="mt-6 text-lg leading-8 text-neutral-600">
                 Basically, I think we all have a very primitive notion of what the mind is. That&apos;s wrong. And when the notion goes away, we&apos;ll realize there&apos;s nothing distinguishing these things from us except that they are digital.
@@ -89,10 +89,10 @@ const DrDas: React.FC = () => {
 
             {/* RIGHT COLUMN: Video Player */}
             <div className="gsap-video-container lg:col-span-7">
-              <div className="rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:p-3">
+              <div className="rounded-xl lg:p-3">
                 <div className="aspect-video">
                   <iframe
-                    src="https://www.youtube.com/embed/wRHedyw4W1E"
+                    src="https://www.youtube.com/embed/wRHedyw4W1E/"
                     title="Meta AI Presentation"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

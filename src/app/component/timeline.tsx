@@ -252,7 +252,7 @@ const Timeline: React.FC = () => {
         <section id="timeline" className="bg-white sm:py-2">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-3xl text-center">
-                    <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Evolution of AI</h2>
+                    <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">The evolution of AI</h2>
                     <p className="text-lg leading-8 text-gray-600">
                         Modern artificial intelligence is a tapestry woven from decades of breakthroughs. Each discovery forms a strand in the double helix of innovation, leading to the powerful models of today.
                     </p>

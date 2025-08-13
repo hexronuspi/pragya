@@ -188,7 +188,7 @@ export const Neuron = () => {
     return (
         <section ref={sectionRef} className="bg-white py-24 md:py-32 flex flex-col items-center justify-center overflow-hidden">
             <div className="w-full max-w-5xl mx-auto px-4">
-                <h2 className="text-3xl md:text-4xl text-center font-bold text-neutral-900 mb-4">A Look Inside the &apos;Black Box&apos;</h2>
+                <h2 className="text-3xl md:text-4xl text-center font-bold text-neutral-900 mb-4">The Black Box Model</h2>
                 <h3 ref={titleRef} className="font-sans text-neutral-800 mb-16 text-xl md:text-2xl max-w-3xl mx-auto text-center font-light leading-relaxed">
                     It learns by adjusting connections, inspired by the brain&apos;s synaptic process.
                 </h3>
