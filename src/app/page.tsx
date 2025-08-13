@@ -1,6 +1,6 @@
 'use client'; 
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -15,7 +15,6 @@ import { RatherBlank } from './component/ratherblank';
 import { Super } from './component/super';
 import FoundationalWarning from './component/warning';
 import {SamImageSection} from './component/sam';
-import Percent from './component/percent';
 import Ndna from './component/ndna';
 import StanfordIndex from './component/stanfordindex';
 import Bengio from './component/bengio';
