@@ -3,6 +3,8 @@ import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
+import {  ArrowRightCircleIcon } from 'lucide-react';
 // Register the GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 export const Super = () => {
@@ -132,6 +134,18 @@ className="min-h-screen w-full flex items-center justify-center p-8 overflow-hid
             sizes="(max-width: 768px) 100vw, 70vw"
             unoptimized={true}
           />
+        </div>
+        <div className="mt-4 flex justify-end">
+          <Link
+            href="https://openai.com/index/introducing-superalignment/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 hover:underline transition-colors"
+            aria-label="Introducing Superalignment - OpenAI (opens in a new tab)"
+          >
+            <ArrowRightCircleIcon className="w-5 h-5" />
+            Introducing Superalignment - OpenAI
+          </Link>
         </div>
       </div>
 

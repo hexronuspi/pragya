@@ -133,7 +133,7 @@ export default function Home() {
 <Ndna/>
       <footer className="relative rounded-t-3xl px-8 py-10 sm:p-12 text-center -mt-4 z-10">
         <h2 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-          Discover the nDNA Project
+          Discover the nDNA of AI
         </h2>
         <div className="mt-8">
           <Link
@@ -142,12 +142,11 @@ export default function Home() {
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center rounded-full py-3 px-7 text-sm font-semibold text-white shadow-lg transition-all duration-300 ease-in-out bg-gradient-to-r from-cyan-500 via-purple-500 to-indigo-600 hover:scale-105 hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
           >
-            nDNA Project
+            nDNA
             <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
       </footer>
     </main>
   );
-
 }

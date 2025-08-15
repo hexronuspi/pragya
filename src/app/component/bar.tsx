@@ -41,7 +41,7 @@ const Bar: React.FC<BarProps> = ({ imageUrl, imageAlt }) => {
           - `md:justify-start`: On medium screens and larger (>=768px), the content aligns to the start (left).
       */}
       <Link href="https://pragyaai.github.io/" target="_blank">
-      <div className="flex h-full w-full items-center justify-center px-4 sm:px-6 md:justify-start">
+      <div className="flex h-full w-full items-center justify-center px-4 sm:px-6 md:justify-end">
         <Image
           src={imageUrl}
           alt={imageAlt}
