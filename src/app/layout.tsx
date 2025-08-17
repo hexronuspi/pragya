@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "nDNA - nDNA",
   description: "",
   icons: {
-    icon: "/pragya/nDNA_logo.png",
+    icon: "/pragya/tab.png",
   },
 };
 

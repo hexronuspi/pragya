@@ -28,6 +28,7 @@ import NNAetherConceptSection from './component/neuralaether';
 import DrDas from './component/drdas';
 import Paper4 from './component/paper4';
 import Bar from './component/bar';
+import Ban from './component/ban';
 
 const basePath = '/pragya';
 // Register the GSAP plugin
@@ -80,6 +81,7 @@ function HintonExperience() {
 export default function Home() {
   return (
     <main style={{ backgroundColor: PALETTE.white }}>
+      <Ban/>
       <Bar
         imageUrl="/pragya/pragya.webp" // <--- IMPORTANT: Replace with your actual image path
         imageAlt="Descriptive alt text for the image"
