@@ -86,7 +86,7 @@ const SplitScreenWarning: React.FC<SplitScreenWarningProps> = ({
             {/* YouTube Button - Below Video */}
             <div className="mt-4 flex justify-start">
               <Link
-                href="https://www.youtube.com/shorts/qbrcZB-1hck"
+                href="https://www.youtube.com/watch?v=-f5WQAk3dYo&pp=ygUZaGludG9uIG5vYmVsIHByaXplIHNwZWVjaA%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center bg-red-600 hover:bg-red-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -120,6 +120,5 @@ const SplitScreenWarning: React.FC<SplitScreenWarningProps> = ({
     </section>
   );
 };
-
 
 export default SplitScreenWarning;

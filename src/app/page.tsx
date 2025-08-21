@@ -29,6 +29,7 @@ import DrDas from './component/drdas';
 import Paper4 from './component/paper4';
 import Bar from './component/bar';
 import Ban from './component/ban';
+import Yann from './component/yann';
 
 const basePath = '/pragya';
 // Register the GSAP plugin
@@ -101,6 +102,7 @@ export default function Home() {
   
  <Super/>
       <FoundationalWarning/>
+      <Yann/>
 <Bengio/>
 <Paper1/>
 <Paper2/>
